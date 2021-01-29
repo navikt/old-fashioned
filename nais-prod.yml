@@ -1,0 +1,26 @@
+apiVersion: "nais.io/v1alpha1"
+kind: "Application"
+metadata:
+  name: "pensjon-ktor-template"
+  namespace: "teampensjon"
+  labels:
+    team: "teampensjon"
+spec:
+  image: "{{{ image }}}"
+  port: 8080
+  liveness:
+    path: "/ping"
+    initialDelay: 3
+    timeout: 1
+  readiness:
+    path: "/ping"
+    initialDelay: 3
+    timeout: 1
+  prometheus:
+    enabled: true
+    path: "/internal/metrics"
+  ingresses:
+    - "https://pensjon-ktor-template.intern.nav.no"
+  env:
+    - name: "FOO_EXAMPLE_ENV"
+      value: "BAR_EXAMPLE_VALUE"
