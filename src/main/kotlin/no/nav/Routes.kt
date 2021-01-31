@@ -109,9 +109,11 @@ fun Routing.routes(
                 .withSubject(ident)
                 .sign(Algorithm.HMAC256("whatever"))
 
-            call.respond(OAuth2TokenResponse(
-                access_token = token
-            ))
+            call.respond(
+                OAuth2TokenResponse(
+                    access_token = token
+                )
+            )
         } catch (e: Exception) {
             Routes.LOG.error("Could not exchange token", e)
             call.response.status(HttpStatusCode.InternalServerError)

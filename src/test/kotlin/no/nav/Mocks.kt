@@ -43,7 +43,7 @@ val mockAzureADClient = HttpClient(MockEngine) {
                                             }
                                     ]
                                 }
-                            """.trimIndent()
+                    """.trimIndent()
                     respond(
                         headers = headersOf(
                             "Content-Type" to listOf("application/json")
@@ -74,7 +74,7 @@ val mockGraphApiHttpClient = HttpClient(MockEngine) {
                                 {
                                   "onPremisesSamAccountName": "z123456"
                                 }
-                            """.trimIndent()
+                    """.trimIndent()
                     respond(
                         headers = headersOf(
                             "Content-Type" to listOf("application/json")
