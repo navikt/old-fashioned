@@ -24,11 +24,12 @@ jobs:
         shell: bash
         run: |
           mvn clean install --batch-mode
-      - name: Build and publish Docker image
+          docker build --tag ${docker_image} .
+      - name: Publish Docker image
+        if: github.ref == 'refs/heads/main'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          docker build --tag ${docker_image} .
           docker login docker.pkg.github.com -u ${GITHUB_REPOSITORY} -p ${GITHUB_TOKEN}
           docker push ${docker_image}
 
