@@ -23,7 +23,7 @@ jobs:
       - name: Build
         shell: bash
         run: |
-          mvn clean install
+          mvn clean install --batch-mode
       - name: Build and publish Docker image
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
