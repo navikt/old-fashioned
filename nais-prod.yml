@@ -7,7 +7,7 @@ metadata:
     team: "teampensjon"
 spec:
   image: "{{{ image }}}"
-  port: 8080
+  port: 7119
   liveness:
     path: "/ping"
     initialDelay: 3
@@ -20,7 +20,14 @@ spec:
     enabled: true
     path: "/internal/metrics"
   ingresses:
-    - "https://pensjon-ktor-template.intern.nav.no"
+    - "https://old-fashioned.intern.nav.no"
+  azure:
+    application:
+      enabled: true
+      tenant: nav.no
+  webproxy: true
   env:
-    - name: "FOO_EXAMPLE_ENV"
-      value: "BAR_EXAMPLE_VALUE"
+    - name: OPENAM_ISSUER
+      value: https://isso.adeo.no:443/isso/oauth2
+    - name: GRAPH_API_URL
+      value: https://graph.microsoft.com

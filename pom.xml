@@ -3,12 +3,13 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>pensjon-pdf-generator</artifactId>
+    <artifactId>old-fashioned</artifactId>
     <groupId>no.nav</groupId>
     <version>1-SNAPSHOT</version>
-    <name>Pensjon PDF Generator</name>
+    <name>Old-Fashioned</name>
 
     <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <kotlin.version>1.4.21</kotlin.version>
         <ktor.version>1.5.1</ktor.version>
         <serialization.version>1.0.1</serialization.version>
@@ -58,12 +59,28 @@
         </dependency>
         <dependency>
             <groupId>io.ktor</groupId>
+            <artifactId>ktor-client-apache</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.ktor</groupId>
             <artifactId>ktor-metrics-micrometer</artifactId>
         </dependency>
         <dependency>
             <groupId>io.micrometer</groupId>
             <artifactId>micrometer-registry-prometheus</artifactId>
             <version>1.1.3</version>
+        </dependency>
+
+        <!-- Token validation -->
+        <dependency>
+            <groupId>com.auth0</groupId>
+            <artifactId>java-jwt</artifactId>
+            <version>3.12.1</version>
+        </dependency>
+        <dependency>
+            <groupId>com.auth0</groupId>
+            <artifactId>jwks-rsa</artifactId>
+            <version>0.15.0</version>
         </dependency>
 
         <!-- Logging -->
@@ -86,8 +103,24 @@
         <!-- Test scope -->
         <dependency>
             <groupId>org.jetbrains.kotlin</groupId>
-            <artifactId>kotlin-test</artifactId>
+            <artifactId>kotlin-test-junit</artifactId>
             <version>${kotlin.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.ktor</groupId>
+            <artifactId>ktor-client-mock</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.ktor</groupId>
+            <artifactId>ktor-client-mock-jvm</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.mockk</groupId>
+            <artifactId>mockk</artifactId>
+            <version>1.10.5</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -99,6 +132,7 @@
 
     <build>
         <sourceDirectory>src/main/kotlin</sourceDirectory>
+        <testSourceDirectory>src/test/kotlin</testSourceDirectory>
         <plugins>
             <plugin>
                 <groupId>com.github.gantsign.maven</groupId>

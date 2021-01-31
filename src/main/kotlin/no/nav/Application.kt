@@ -1,5 +1,6 @@
 package no.nav
 
+import com.auth0.jwt.interfaces.JWTVerifier
 import io.ktor.application.Application
 import io.ktor.application.call
 import io.ktor.application.install
@@ -14,7 +15,11 @@ import io.ktor.serialization.json
 import io.micrometer.prometheus.PrometheusConfig
 import io.micrometer.prometheus.PrometheusMeterRegistry
 
-fun Application.mainModule() {
+fun Application.mainModule(
+    oidcService: OidcService,
+    microsoftGraphService: MicrosoftGraphService,
+    jwtVerifier: JWTVerifier?
+) {
     val metricsRegistry = PrometheusMeterRegistry(PrometheusConfig.DEFAULT)
 
     install(MicrometerMetrics) {
@@ -33,6 +38,10 @@ fun Application.mainModule() {
             call.respond(metricsRegistry.scrape())
         }
 
-        routes()
+        routes(
+            oidcService = oidcService,
+            microsoftGraphService = microsoftGraphService,
+            jwtVerifier = jwtVerifier
+        )
     }
 }
