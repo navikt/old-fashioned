@@ -4,7 +4,7 @@ This service is a Token Exchange server, which accepts Azure AD tokens for NAV-a
 exchanges them for ditto OpenAM tokens.
 
 The reason this STS exists, is that we want to be able to login with Azure AD, and still communicate
-with legacy backend services that only accept OpenAM tokens.
+with legacy backend services that only accept OpenAM tokens (the old fashioned way).
 
 <img src="/docs/drink.jpg?raw=true" alt="Build Success" width="300"/>
 
