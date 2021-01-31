@@ -6,7 +6,8 @@ exchanges them for ditto OpenAM tokens.
 The reason this STS exists, is that we want to be able to login with Azure AD, and still communicate
 with legacy backend services that only accept OpenAM tokens.
 
-![Build Success](/docs/drink.jpg?raw=true " Build Success")
+<img src="/docs/drink.jpg?raw=true" alt="Build Success" width="300"/>
+
 
 ### How to build
 
