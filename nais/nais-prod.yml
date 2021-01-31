@@ -1,0 +1,33 @@
+apiVersion: "nais.io/v1alpha1"
+kind: "Application"
+metadata:
+  name: "old-fashioned"
+  namespace: "teampensjon"
+  labels:
+    team: "teampensjon"
+spec:
+  image: "{{{ image }}}"
+  port: 7119
+  liveness:
+    path: "/ping"
+    initialDelay: 3
+    timeout: 1
+  readiness:
+    path: "/ping"
+    initialDelay: 3
+    timeout: 1
+  prometheus:
+    enabled: true
+    path: "/internal/metrics"
+  ingresses:
+    - "https://old-fashioned.intern.nav.no"
+  azure:
+    application:
+      enabled: true
+      tenant: nav.no
+  webproxy: true
+  env:
+    - name: OPENAM_ISSUER
+      value: https://isso.adeo.no:443/isso/oauth2
+    - name: GRAPH_API_URL
+      value: https://graph.microsoft.com

@@ -18,6 +18,7 @@ import io.micrometer.prometheus.PrometheusMeterRegistry
 fun Application.mainModule(
     oidcService: OidcService,
     microsoftGraphService: MicrosoftGraphService,
+    openamIssuer: String,
     jwtVerifier: JWTVerifier?
 ) {
     val metricsRegistry = PrometheusMeterRegistry(PrometheusConfig.DEFAULT)
@@ -41,6 +42,7 @@ fun Application.mainModule(
         routes(
             oidcService = oidcService,
             microsoftGraphService = microsoftGraphService,
+            openamIssuer = openamIssuer,
             jwtVerifier = jwtVerifier
         )
     }

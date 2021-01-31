@@ -14,6 +14,7 @@ import io.ktor.routing.post
 import kotlinx.serialization.Serializable
 import org.slf4j.LoggerFactory
 import java.security.interfaces.RSAPublicKey
+import java.util.UUID
 
 object Routes {
     val LOG = LoggerFactory.getLogger(Routes::class.java)
@@ -27,6 +28,7 @@ data class OAuth2TokenResponse(
 fun Routing.routes(
     oidcService: OidcService,
     microsoftGraphService: MicrosoftGraphService,
+    openamIssuer: String,
     jwtVerifier: JWTVerifier?
 ) {
     post("/token") {
@@ -101,13 +103,35 @@ fun Routing.routes(
 
             val ident = microsoftGraphService.getOpenAMIdent(subjectToken)
 
+            // Generate something random (just so that the field isn't null)
+            val trackingId = UUID.randomUUID().toString()
+
+            val audience = "old-fashioned-transformed-azure-ad-${jwt.audience}"
             val token = JWT.create()
-                .withIssuer("https://isso-q.adeo.no:443/isso/oauth2")
+                .withIssuer(openamIssuer)
                 .withExpiresAt(jwt.expiresAt)
                 .withIssuedAt(jwt.issuedAt)
-                .withAudience("old-fashioned-transformed-azure-ad-${jwt.audience}")
+                .withAudience(audience)
                 .withSubject(ident)
+                .withClaim("auth_time", jwt.issuedAt)
+                .withClaim("auditTrackingId", trackingId)
+                .withClaim("tokenName", "id_token")
+                .withClaim("tokenType", "JWTToken")
+                .withClaim("azp", audience)
+                .withClaim("realm", "/")
                 .sign(Algorithm.HMAC256("whatever"))
+
+            /*
+            The Old-Fashioned token is somewhat incomplete, compared
+            with the original OpenAM token.
+            The token will miss these claims:
+            - at_hash
+            - c_hash
+            - org.forgerock.openidconnect.ops
+            Hopefully, these claims are not used by legacy applications.
+            */
+
+            Routes.LOG.info("Generated OIDC token for Azure AD token (originally issued for audience ${jwt.audience}")
 
             call.respond(
                 OAuth2TokenResponse(
@@ -117,7 +141,7 @@ fun Routing.routes(
         } catch (e: Exception) {
             Routes.LOG.error("Could not exchange token", e)
             call.response.status(HttpStatusCode.InternalServerError)
-            call.respondText("Internal server error: ${e.message}")
+            call.respondText("Internal server error")
         }
     }
 }

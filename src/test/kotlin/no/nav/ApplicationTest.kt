@@ -26,6 +26,7 @@ class ApplicationTest {
             mainModule(
                 oidcService = oidcService,
                 microsoftGraphService = microsoftGraphService,
+                openamIssuer = "test-issuer",
                 jwtVerifier = null
             )
         }) {
@@ -51,6 +52,7 @@ class ApplicationTest {
             mainModule(
                 oidcService = oidcService,
                 microsoftGraphService = microsoftGraphService,
+                openamIssuer = "test-issuer",
                 jwtVerifier = alwaysAcceptedVerifier
             )
         }) {

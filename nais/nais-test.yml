@@ -1,7 +1,7 @@
 apiVersion: "nais.io/v1alpha1"
 kind: "Application"
 metadata:
-  name: "pensjon-ktor-template"
+  name: "old-fashioned-t"
   namespace: "teampensjon"
   labels:
     team: "teampensjon"
@@ -20,14 +20,14 @@ spec:
     enabled: true
     path: "/internal/metrics"
   ingresses:
-    - "https://old-fashioned.intern.nav.no"
+    - "https://old-fashioned-t.dev.intern.nav.no"
   azure:
     application:
       enabled: true
-      tenant: nav.no
+      tenant: trygdeetaten.no
   webproxy: true
   env:
     - name: OPENAM_ISSUER
-      value: https://isso.adeo.no:443/isso/oauth2
+      value: https://isso-t.adeo.no:443/isso/oauth2
     - name: GRAPH_API_URL
       value: https://graph.microsoft.com

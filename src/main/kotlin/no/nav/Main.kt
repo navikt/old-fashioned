@@ -35,6 +35,7 @@ fun main() {
         mainModule(
             oidcService = oidcService,
             microsoftGraphService = microsoftGraphService,
+            openamIssuer = config.openamIssuer,
             jwtVerifier = null
         )
     }.start(wait = true)
